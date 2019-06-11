@@ -1,0 +1,92 @@
+import tweepy
+
+
+# Variables that contain user credentials - retrieved after creating app on Twitter API - old credentials - WILL NOT WORK
+ACCESS_TOKEN = '*'
+ACCESS_TOKEN_SECRET = '*'
+CONSUMER_KEY = '*'
+CONSUMER_SECRET = '*'
+
+#Authenticating for access to Twitter API
+auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        
+
+#Access to Tweepy API
+api = tweepy.API(auth)
+
+
+#Filtering tweets with Tweepy and Cursor which helps targeting for the Search API.
+#Targets users using screen name part of a tweet using keywords!
+
+query = 'retail'
+query2 = 'company'
+max_tweets = 10
+
+
+searched_tweets = [status for status in tweepy.Cursor(api.search, q=(query + " " + query2), result_type="recent", include_entities=True,lang="en").items(max_tweets)]
+
+screen_name1 = searched_tweets[0].author.screen_name
+screen_name2 = searched_tweets[1].author.screen_name
+screen_name3 = searched_tweets[2].author.screen_name
+screen_name4 = searched_tweets[3].author.screen_name
+screen_name5 = searched_tweets[4].author.screen_name
+screen_name6 = searched_tweets[5].author.screen_name
+screen_name7 = searched_tweets[6].author.screen_name
+screen_name8 = searched_tweets[7].author.screen_name
+screen_name9 = searched_tweets[8].author.screen_name
+screen_name10 = searched_tweets[9].author.screen_name
+
+print(screen_name1,screen_name2,screen_name3,screen_name4,screen_name5,screen_name6,screen_name7,screen_name8,screen_name9,screen_name10)
+
+
+#Filtering tweets with Tweepy and Cursor which helps targeting for the Search API.
+#Targets events using text part of the tweet!
+
+query3 = 'technology event'
+query4 = 'events'
+max_tweets = 5
+
+
+searched_events = [status for status in tweepy.Cursor(api.search, q=(query3 + " " + query4), result_type="recent", include_entities=True,lang="en").items(max_tweets)]
+
+event1 = str(searched_events[0].text.encode('utf-8'))
+event2 = str(searched_events[1].text.encode('utf-8'))
+event3 = str(searched_events[2].text.encode('utf-8'))
+event4 = str(searched_events[3].text.encode('utf-8'))
+event5 = str(searched_events[4].text.encode('utf-8'))
+
+
+#Filtering tweets with Tweepy and Cursor which helps targeting for the Search API.
+#Targets articles using text part of the tweet!
+
+query5 = 'technology articles'
+query6 = 'blog'
+max_tweets = 5
+
+
+searched_articles = [status for status in tweepy.Cursor(api.search, q=(query5 + " " + query6), result_type="recent", include_entities=True,lang="en").items(max_tweets)]
+
+article1 = str(searched_articles[0].text.encode('utf-8'))
+article2 = str(searched_articles[1].text.encode('utf-8'))
+article3 = str(searched_articles[2].text.encode('utf-8'))
+article4 = str(searched_articles[3].text.encode('utf-8'))
+article5 = str(searched_articles[4].text.encode('utf-8'))
+
+
+
+#This sets up the e-mail system using python which logs into the GMail account!
+
+"""The first step is to create an SMTP object, each object is used for connection 
+with one server."""
+
+import smtplib
+server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+
+#Next, log in to the server
+server.login("*@gmail.com", “***********”)
+
+#Send the e-mail
+msg =  'Subject: Searching With Twitter!\n\n' + "10 Potential Customers!" + "\n\n" + "1." + " " +   screen_name1 + "\n" + "2." + " " +  screen_name2+ "\n" + "3." + " " +  screen_name3 + "\n" + "4." + " " +  screen_name4 + "\n" + "5." + " " +  screen_name5 + "\n" + "6." + " " +  screen_name6 + "\n" + "7." + " " + screen_name7 + "\n" + "8." + " " +  screen_name8 + "\n" + "9." + " " +  screen_name9 + "\n" + "10." + " " + screen_name10  +  "\n\n\n"  + "5 New Potential Event Opportunities" + "\n\n" + "1." + " " + event1 + "\n" + "2." + " " +  event2+ "\n" + "3." + " " +  event3 + "\n" + "4." + " " +  event4 + "\n" + "5." + " " +  event5 +  "\n\n\n"  + "5 New Potential Articles" + "\n\n" + "1." + " " + article1 + "\n" + "2." + " " +  article2+ "\n" + "3." + " " +  article3 + "\n" + "4." + " " +  article4 + "\n" + "5." + " " +  article5  # The /n separates the message from the headers
+
+server.sendmail("*@gmail.com", msg)
